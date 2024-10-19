@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "af_dotnet_isolated_delay": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7251",
+      "launchBrowser": false
+    }
+  }
+}
