@@ -17,8 +17,16 @@ namespace Company.Function
         [Function("Delay")]
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
-            return new OkObjectResult("Welcome to Azure Functions!");
+            var msValue = req.Query["ms"].FirstOrDefault();
+            if (string.IsNullOrEmpty(msValue))
+            {
+                return new BadRequestObjectResult("Invalid 'ms' value on the query string");
+            }
+
+            var durationMilliseconds = int.Parse(msValue);
+            _logger.LogInformation($"Delay duration: {durationMilliseconds} ms");
+            System.Threading.Thread.Sleep(durationMilliseconds);
+            return new OkObjectResult($"Delay duration: {durationMilliseconds} ms");
         }
     }
 }
