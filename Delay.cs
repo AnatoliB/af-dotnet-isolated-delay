@@ -29,10 +29,16 @@ namespace Company.Function
                 return new BadRequestObjectResult("Invalid 'duration' value on the query string");
             }
 
-            var duration = TimeSpan.FromSeconds(int.Parse(durationSeconds));
-            _logger.LogInformation($"{name}: Delay duration: {duration}");
-            System.Threading.Thread.Sleep(duration);
-            return new OkObjectResult($"{name}: Delay duration: {duration}");
+            var seconds = int.Parse(durationSeconds);
+            _logger.LogInformation($"{name}: Delay duration: {seconds} seconds");
+
+            for (int i = 0; i < seconds; i++)
+            {
+                _logger.LogInformation($"{name}: {i}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            
+            return new OkObjectResult($"{name}: Delay duration: {seconds} seconds");
         }
     }
 }
