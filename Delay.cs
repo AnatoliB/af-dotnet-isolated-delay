@@ -17,16 +17,16 @@ namespace Company.Function
         [Function("Delay")]
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
         {
-            var msValue = req.Query["ms"].FirstOrDefault();
-            if (string.IsNullOrEmpty(msValue))
+            var durationSeconds = req.Query["duration"].FirstOrDefault();
+            if (string.IsNullOrEmpty(durationSeconds))
             {
-                return new BadRequestObjectResult("Invalid 'ms' value on the query string");
+                return new BadRequestObjectResult("Invalid 'duration' value on the query string");
             }
 
-            var durationMilliseconds = int.Parse(msValue);
-            _logger.LogInformation($"Delay duration: {durationMilliseconds} ms");
-            System.Threading.Thread.Sleep(durationMilliseconds);
-            return new OkObjectResult($"Delay duration: {durationMilliseconds} ms");
+            var duration = TimeSpan.FromSeconds(int.Parse(durationSeconds));
+            _logger.LogInformation($"Delay duration: {duration}");
+            System.Threading.Thread.Sleep(duration);
+            return new OkObjectResult($"Delay duration: {duration}");
         }
     }
 }
