@@ -17,6 +17,12 @@ namespace Company.Function
         [Function("Delay")]
         public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
         {
+            var name = req.Query["name"];
+            if (string.IsNullOrEmpty(name))
+            {
+                return new BadRequestObjectResult("Please pass a name on the query string");
+            }
+
             var durationSeconds = req.Query["duration"].FirstOrDefault();
             if (string.IsNullOrEmpty(durationSeconds))
             {
@@ -24,9 +30,9 @@ namespace Company.Function
             }
 
             var duration = TimeSpan.FromSeconds(int.Parse(durationSeconds));
-            _logger.LogInformation($"Delay duration: {duration}");
+            _logger.LogInformation($"{name}: Delay duration: {duration}");
             System.Threading.Thread.Sleep(duration);
-            return new OkObjectResult($"Delay duration: {duration}");
+            return new OkObjectResult($"{name}: Delay duration: {duration}");
         }
     }
 }
