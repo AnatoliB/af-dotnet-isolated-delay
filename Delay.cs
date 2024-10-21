@@ -34,7 +34,7 @@ namespace Company.Function
 
             for (int i = 0; i < seconds; i++)
             {
-                _logger.LogInformation($"{name}: {i}");
+                _logger.LogInformation($"{name}: {i} (PID: {Environment.ProcessId})");
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             }
             
